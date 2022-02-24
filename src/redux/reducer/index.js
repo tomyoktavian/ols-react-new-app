@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
-import auth from './Auth';
+import getAuth from './Auth';
+import getTombolSidebar from './TombolSidebar';
+import getLikePost from './LikePost';
 
 const rootReducer = combineReducers({
-    auth
+    getAuth,
+    getTombolSidebar,
+    getLikePost
 });
 
 export default rootReducer;

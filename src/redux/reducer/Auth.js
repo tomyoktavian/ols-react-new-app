@@ -8,7 +8,7 @@ const initialState = {
     user: {}
 };
 
-export default function auth(state = initialState, action) {
+export default function getAuth(state = initialState, action) {
     switch (action.type) {
         case SIGNIN:
             return {
