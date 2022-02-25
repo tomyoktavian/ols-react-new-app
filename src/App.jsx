@@ -13,7 +13,6 @@ const likedPosts = React.lazy(() => import('./views/public/likedPosts'));
 
 function App(props) {
   const { isAuthenticated } = props;
-  console.log(isAuthenticated);
   return (
       <ThemeProvider theme={theme}>
       <Router>
@@ -25,7 +24,7 @@ function App(props) {
                   key={route.path}
                   path={route.path}
                   exact={route.exact}
-                  render={props => !isAuthenticated ? <Redirect to={{ pathname: "/" }} /> : <route.component {...props} />}
+                  render={props => !isAuthenticated && !route.auth ? <Redirect to={{ pathname: "/" }} /> : <route.component {...props} />}
                 />
               ))}
             </Suspense>

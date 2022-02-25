@@ -1,4 +1,6 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { connect } from "react-redux";
+import { likePost, unlikePost } from '../../redux/actions';
 import InfinitePosts from '../../utils/infinitePost';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -6,13 +8,22 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 
-const Posts = () => {
+const Posts = (props) => {
+  const { likePost, postLike, unlikePost} = props;
   const [pageNumber, setPageNumber] = useState(1)
-  const { loading, post, hasMore } = InfinitePosts(pageNumber);
+  const { loading, post, hasMore, } = InfinitePosts(pageNumber);
+  
+  const [dataPostLike, setDataPostLike] = useState([])
+  
+  useEffect(() => {
+    setDataPostLike(postLike)
+    console.log(postLike)
+  }, [postLike])
 
   const observer = useRef()
   const lastItemElementRef = useCallback(node => {
@@ -28,6 +39,15 @@ const Posts = () => {
 
   const Item = ({post}) => {
     const { title, body } = post
+
+    const handleLike = (id) => {
+      likePost(id)
+    }
+
+    const handleDisLike = (id) => {
+      unlikePost(id)
+    }
+
     return (
       <>
         <ListItemText
@@ -44,9 +64,15 @@ const Posts = () => {
           secondary={body}
         />
         <ListItemText>
-          <IconButton>
-            <FavoriteBorderIcon />
-          </IconButton>
+          {dataPostLike.includes(`${post.id}`) ?
+            <IconButton onClick={() => handleDisLike(post.id)}>
+              <FavoriteIcon color="error" />
+            </IconButton>
+            : 
+            <IconButton onClick={() => handleLike(post.id)}>
+              <FavoriteBorderIcon />
+            </IconButton>
+          }
         </ListItemText>
       </>
     )
@@ -88,4 +114,11 @@ const Posts = () => {
   )
 }
 
-export default Posts
+const mapStateToProps = (state) => {
+  const { getLikePost: { postLike} } = state
+  return {
+    postLike
+  }
+}
+
+export default connect(mapStateToProps, { likePost, unlikePost })(Posts);

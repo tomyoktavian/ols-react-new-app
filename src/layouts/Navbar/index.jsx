@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { tombolSidebar} from '../../redux/actions';
+import { tombolSidebar, logout} from '../../redux/actions';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
@@ -15,7 +15,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 const Navbar = (props) => {
-  const { getTombolSidebar: { isOpen }, getAuth: { isAuthenticated }, tombolSidebar } = props;
+  const history = useHistory();
+  const { getTombolSidebar: { isOpen }, getAuth: { isAuthenticated }, postLike, tombolSidebar, logout } = props;
 
   const handleDrawerOpen = (isOpen) => (event) => {
     if (
@@ -39,6 +40,12 @@ const Navbar = (props) => {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    setAnchorElUser(null);
+    logout()
+    history.push('/');
+  }
+
   return (
     <>
       <MuiAppBar position="fixed">
@@ -57,11 +64,11 @@ const Navbar = (props) => {
 
 
           <Box sx={{ flexGrow: 0 }}>
-            <IconButton sx={{ p: 0 }}>
-              <FavoriteIcon color="inherit" edge="start" />
+            <IconButton>
+              <FavoriteIcon sx={{ color: `${postLike.length > 0 ? '#d32f2f' : '#fff'}`}} />
             </IconButton>
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <MoreIcon color="inherit" edge="start"/>
+              <IconButton onClick={handleOpenUserMenu}>
+                <MoreIcon sx={{color:"#fff"}}/>
               </IconButton>
             <Menu
               sx={{ mt: '45px' }}
@@ -79,16 +86,18 @@ const Navbar = (props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Link
-                  to={{
+              {isAuthenticated ? (
+                <MenuItem onClick={handleLogout}>
+                  Logout
+                </MenuItem>
+              ) : (
+                  <MenuItem onClick={handleCloseUserMenu} component={Link} to={{
                     pathname: "/login",
                     state: { hasLogin: true },
-                  }}
-                >
-                  <Typography textAlign="center">Login</Typography>
-                </Link>
-                </MenuItem>
+                  }}>
+                    Login
+                  </MenuItem>
+                )}
             </Menu>
           </Box>
         </Toolbar>
@@ -98,8 +107,8 @@ const Navbar = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { getTombolSidebar, getAuth } = state;
-  return { getTombolSidebar, getAuth }
+  const { getTombolSidebar, getAuth, getLikePost: { postLike} } = state;
+  return { getTombolSidebar, getAuth, postLike }
 }
 
-export default connect(mapStateToProps, { tombolSidebar })(Navbar); 
+export default connect(mapStateToProps, { tombolSidebar, logout })(Navbar); 
