@@ -1,9 +1,11 @@
 import React from 'react'
+import {connect} from 'react-redux';
 import { useHistory } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { API } from './../../../API';
 
 const style = {
     position: 'absolute',
@@ -28,8 +30,9 @@ const fieldStyle = {
     width: '100% !important'
 }
 
+
 const AddPost = (props) => {
-    const { location } = props;
+    const { location, getAuth: {user} } = props;
     const { state: { addPosts } } = location;
     const history = useHistory();
 
@@ -40,6 +43,14 @@ const AddPost = (props) => {
 
     const handlePost = (e) => {
         e.preventDefault();
+        const body = {
+            title: e.target.title.value,
+            content: e.target.body.value,
+            userId: user.id
+        }
+        API.createPost(body).then(res => {
+            history.push('/admin')
+        })
     };
 
     return (
@@ -71,4 +82,9 @@ const AddPost = (props) => {
     )
 }
 
-export default AddPost; 
+const mapStateToProps = (state) => {
+    const { getAuth } = state;
+    return { getAuth }
+}
+
+export default connect(mapStateToProps)(AddPost);; 
