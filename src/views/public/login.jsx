@@ -56,7 +56,7 @@ const Login = (props) => {
         <Box sx={{ ...style }}>
             <TextField label="User ID" name="userId" id="margin-none" required sx={{width:'100% !important', padding: '5px 0'}}/>
             <TextField label="Email" name="email" type="email" id="margin-dense" margin="dense" required sx={{width:'100% !important', padding: '5px 0'}}/>
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, marginTop: '10px' }}>
+            <Box sx={{ display: { xs: 'inline', md: 'flex' }, marginTop: '10px' }}>
               <Button type="cencel" variant="outlined" onClick={() => handleClose()} sx={{marginRight: '10px'}} >Cencel</Button>
               <Button type="submit" variant="contained" >Login</Button>
             </Box>
