@@ -13,6 +13,7 @@ const likedPosts = React.lazy(() => import('./views/public/likedPosts'));
 
 function App(props) {
   const { isAuthenticated } = props;
+  
   return (
       <ThemeProvider theme={theme}>
       <Router>

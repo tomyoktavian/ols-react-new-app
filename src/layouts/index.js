@@ -3,6 +3,8 @@ import Navbar from './Navbar'
 import SideNav from './SideNav'
 import { styled } from '@mui/material/styles';
 import Container from '@mui/material/Container';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop })(
@@ -24,6 +26,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+const fabStyle = {
+  position: 'absolute',
+  bottom: 16,
+  right: 16,
+};
+
 const Layouts = ({ children }) => {
   return (
     <>
@@ -33,6 +41,11 @@ const Layouts = ({ children }) => {
         <DrawerHeader />
         <Container maxWidth="xl">
           {children}
+
+          <Fab sx={fabStyle} color="primary" aria-label="add">
+            <AddIcon />
+          </Fab>
+
         </Container>
       </Main>
     </>
