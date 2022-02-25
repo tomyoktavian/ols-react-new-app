@@ -55,8 +55,11 @@ const Login = (props) => {
         <form onSubmit={handleLogin}>
         <Box sx={{ ...style }}>
           <TextField label="User ID" name="userId" id="margin-none" required />
-          <TextField label="Email" name="email" type="email" id="margin-dense" margin="dense" required />
-            <Button type="submit" variant="contained" sx={{marginTop: '10px'}}>Login</Button>
+            <TextField label="Email" name="email" type="email" id="margin-dense" margin="dense" required />
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, marginTop: '10px' }}>
+              <Button type="cencel" variant="outlined" onClick={() => handleClose()} sx={{marginRight: '10px'}} >Cencel</Button>
+              <Button type="submit" variant="contained" >Login</Button>
+            </Box>
         </Box>
           </form>
       </Modal>
