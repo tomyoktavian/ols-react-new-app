@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { tombolSidebar, logout} from '../../redux/actions';
-import MuiAppBar from '@mui/material/AppBar';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
@@ -48,8 +48,9 @@ const Navbar = (props) => {
 
   return (
     <>
-      <MuiAppBar position="fixed">
-        <Toolbar>
+      <Box sx={{ flexGrow: 1 }}>
+      <AppBar>
+        <Toolbar position="static">
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -58,12 +59,10 @@ const Navbar = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography sx={{fontWeight: '800'}} variant="h6" noWrap component="div">
+            <Typography sx={{ fontWeight: '800', flexGrow: 1}} variant="h6" noWrap component="div">
             {isAuthenticated ? 'Admin' : 'Homepage'}
           </Typography>
 
-
-          <Box sx={{ flexGrow: 0 }}>
             <IconButton>
               <FavoriteIcon sx={{ color: `${postLike.length > 0 ? '#d32f2f' : '#fff'}`}} />
             </IconButton>
@@ -99,9 +98,9 @@ const Navbar = (props) => {
                   </MenuItem>
                 )}
             </Menu>
-          </Box>
         </Toolbar>
-      </MuiAppBar>
+        </AppBar>
+      </Box>
     </>
   )
 }

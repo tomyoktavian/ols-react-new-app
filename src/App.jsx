@@ -23,7 +23,7 @@ function App(props) {
                 <Route
                   key={route.path}
                   path={route.path}
-                  exact={route.exact}
+                  exact={route.exact === true}
                   render={props => !isAuthenticated && !route.auth ? <Redirect to={{ pathname: "/" }} /> : <route.component {...props} />}
                 />
               ))}

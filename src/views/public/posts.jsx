@@ -22,7 +22,6 @@ const Posts = (props) => {
   
   useEffect(() => {
     setDataPostLike(postLike)
-    console.log(postLike)
   }, [postLike])
 
   const observer = useRef()
