@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Navbar from './Navbar'
 import SideNav from './SideNav'
 import { styled } from '@mui/material/styles';
@@ -32,7 +34,8 @@ const fabStyle = {
   right: 16,
 };
 
-const Layouts = ({ children }) => {
+const Layouts = (props) => {
+  const { children, getAuth: { isAuthenticated } } = props;
   return (
     <>
       <Navbar />
@@ -42,9 +45,14 @@ const Layouts = ({ children }) => {
         <Container maxWidth="xl">
           {children}
 
-          <Fab sx={fabStyle} color="primary" aria-label="add">
-            <AddIcon />
-          </Fab>
+          {isAuthenticated && (
+            <Fab sx={fabStyle} color="primary" aria-label="add" component={Link} to={{
+              pathname: "/admin/create",
+              state: { addPosts: true },
+            }}>
+              <AddIcon />
+            </Fab>
+          )}
 
         </Container>
       </Main>
@@ -52,4 +60,9 @@ const Layouts = ({ children }) => {
   )
 }
 
-export default Layouts
+const mapStateToProps = (state) => {
+  const { getAuth } = state;
+  return { getAuth }
+}
+
+export default connect(mapStateToProps)(Layouts);
