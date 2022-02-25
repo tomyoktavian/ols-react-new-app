@@ -1,31 +1,53 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme/config';
 import Layouts from './layouts';
 import router from './routes';
 
-function App() {
+const Login = React.lazy(() => import('./views/public/login'));
+const HomePage = React.lazy(() => import('./views/public/posts'));
+const PostPage = React.lazy(() => import('./views/public/postDetail'));
+const likedPosts = React.lazy(() => import('./views/public/likedPosts'));
+
+function App(props) {
+  const { isAuthenticated } = props;
+  console.log(isAuthenticated);
   return (
-    <ThemeProvider theme={theme}>
-      <Layouts>
-        <Router>
-          <Switch>
+      <ThemeProvider theme={theme}>
+      <Router>
+          <Layouts>
+            <Switch>
             <Suspense fallback={null}>
-              {router.map((route, index) => (
+              {router.map(route => (
                 <Route
-                  key={index}
+                  key={route.path}
                   path={route.path}
                   exact={route.exact}
-                  component={route.component}
+                  render={props => !isAuthenticated ? <Redirect to={{ pathname: "/" }} /> : <route.component {...props} />}
                 />
               ))}
             </Suspense>
           </Switch>
+          <Switch>
+            <Suspense fallback={null}>
+              <Route path="/" component={HomePage} />
+              <Route path="/login" component={Login} />
+              <Route path="/posts/:id" component={PostPage} />
+              <Route path="/liked-posts" component={likedPosts} />
+            </Suspense>
+          </Switch>
+        </Layouts>
         </Router>
-      </Layouts>
-    </ThemeProvider>
+      </ThemeProvider>
   );
 }
 
-export default App;
+
+const mapStateToProps = (state) => {
+  const { getAuth } = state;
+  return getAuth
+}
+
+export default connect(mapStateToProps, {  })(App);

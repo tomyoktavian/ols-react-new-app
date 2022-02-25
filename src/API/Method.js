@@ -13,3 +13,15 @@ export const GET = (path, body) => {
     })
     return promise
 }
+
+export const POST = (path, body) => {
+    const promise = new Promise((resolve, reject) => {
+        axios.post(`${API_URL}/${path}`, body)
+            .then((result) => {
+                resolve(result.data);
+            }, (err) => {
+                reject.apply(err);
+            })
+    })
+    return promise
+}

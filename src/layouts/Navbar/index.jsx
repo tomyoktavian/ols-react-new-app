@@ -1,20 +1,21 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { tombolSidebar} from '../../redux/actions';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 const Navbar = (props) => {
-  const { getTombolSidebar: { isOpen }, tombolSidebar } = props;
+  const { getTombolSidebar: { isOpen }, getAuth: { isAuthenticated }, tombolSidebar } = props;
 
   const handleDrawerOpen = (isOpen) => (event) => {
     if (
@@ -51,16 +52,17 @@ const Navbar = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography sx={{fontWeight: '800'}} variant="h6" noWrap component="div">
-            Homepage
+            {isAuthenticated ? 'Admin' : 'Homepage'}
           </Typography>
 
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <IconButton sx={{ p: 0 }}>
+              <FavoriteIcon color="inherit" edge="start" />
+            </IconButton>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <MoreIcon color="inherit" edge="start"/>
               </IconButton>
-            </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -77,8 +79,15 @@ const Navbar = (props) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-                <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Link
+                  to={{
+                    pathname: "/login",
+                    state: { hasLogin: true },
+                  }}
+                >
                   <Typography textAlign="center">Login</Typography>
+                </Link>
                 </MenuItem>
             </Menu>
           </Box>
@@ -89,8 +98,8 @@ const Navbar = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  const { getTombolSidebar } = state;
-  return { getTombolSidebar }
+  const { getTombolSidebar, getAuth } = state;
+  return { getTombolSidebar, getAuth }
 }
 
 export default connect(mapStateToProps, { tombolSidebar })(Navbar); 

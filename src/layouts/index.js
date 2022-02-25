@@ -24,9 +24,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-function Layouts({children}) {
+const Layouts = ({ children }) => {
   return (
-      <>
+    <>
       <Navbar />
       <Main>
         <SideNav />
@@ -35,7 +35,7 @@ function Layouts({children}) {
           {children}
         </Container>
       </Main>
-      </>
+    </>
   )
 }
 

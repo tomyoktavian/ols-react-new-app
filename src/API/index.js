@@ -1,3 +1,8 @@
-import { GET } from "./method";
+import { 
+    // POST,
+    GET 
+} from "./Method";
 
-export const API = {}
+export const API = {
+    authUser: (userId) => GET(`users/${userId}`),
+}
