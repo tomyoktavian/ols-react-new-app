@@ -2,11 +2,13 @@ import React from 'react'
 import Navbar from './Navbar'
 import SideNav from './SideNav'
 import { styled } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop })(
   ({ theme }) => ({
     flexGrow: 1,
-    padding: theme.spacing(1, 2),
+    padding: theme.spacing(4,3,3,3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -26,10 +28,12 @@ function Layouts({children}) {
   return (
       <>
       <Navbar />
-      <SideNav />
       <Main>
+        <SideNav />
         <DrawerHeader />
-        {children}
+        <Container maxWidth="xl">
+          {children}
+        </Container>
       </Main>
       </>
   )

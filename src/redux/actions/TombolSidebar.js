@@ -1,9 +1,9 @@
-import { TOMBOL_SIDEBAR } from '../constants/ActionTypes';
+import { TOMBOL_SIDEBAR_TOGGLE } from '../constants/TombolSidebar';
 
 
 export const tombolSidebar = (isOpen) => {
     return {
-        type: TOMBOL_SIDEBAR,
+        type: TOMBOL_SIDEBAR_TOGGLE,
         payload: isOpen
     }
 }
