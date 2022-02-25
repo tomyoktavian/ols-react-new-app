@@ -63,7 +63,7 @@ const Navbar = (props) => {
             {isAuthenticated ? 'Admin' : 'Homepage'}
           </Typography>
 
-            <IconButton>
+            <IconButton component={Link} to="/liked-posts">
               <FavoriteIcon sx={{ color: `${postLike.length > 0 ? '#d32f2f' : '#fff'}`}} />
             </IconButton>
               <IconButton onClick={handleOpenUserMenu}>
